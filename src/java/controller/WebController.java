@@ -5,26 +5,32 @@
  */
 package controller;
 
+import entity.Person;
+import entity.Subject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.PersonFacade;
+import session.SubjectFacade;
 
 /**
  *
  * @author pupil
  */
 @WebServlet(name = "WebController", urlPatterns = {
-    "/addStudent",
+    "/addPerson",
     "/addSubject",
-    "/getGrade"
+    
 })
     
 public class WebController extends HttpServlet {
-
+@EJB PersonFacade personFacade;
+@EJB SubjectFacade subjectFacade;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,18 +38,30 @@ public class WebController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String path = request.getServletPath();
         switch (path) {
-            case "/addStudent":
+            case "/addPerson":
+                String firstName=request.getParameter("firstName");
+                String lastName=request.getParameter("lastName");
+                String status=request.getParameter("status");
+                Person person = new Person(firstName, lastName, status);
+                personFacade.create(person);
                 
                 break;
             case "/addSubject":
-            
-                break;
-            case "/getGrade":
+                String name=request.getParameter("name");
+                String hours=request.getParameter("hours");
+                String teacher=request.getParameter("teacher");
+                Subject subject = new Subject(name, hours, teacher);
+                subjectFacade.create(subject);
                 
                 break;
+            default:
+                throw new AssertionError();
+            
         }
-        }
+    
     }
+        
+}
 
    
 

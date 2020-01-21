@@ -38,6 +38,10 @@ public class Subject implements Serializable{
         this.person = person;
     }
 
+    public Subject(String name, String hours, String teacher) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Long getId() {
         return id;
     }

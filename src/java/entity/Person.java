@@ -38,6 +38,10 @@ public class Person implements Serializable {
         this.lastname = lastname;
         this.status = status;
     }    
+
+    public Person(String firstName, String lastName, String status) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     public Long getId() {
         return id;
     }
