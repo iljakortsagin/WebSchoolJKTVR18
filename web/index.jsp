@@ -9,9 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Школа онлайн</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Начните работу</h1>
+        <a href="showAddStudent">Добавить студента</a><br>
     </body>
 </html>
