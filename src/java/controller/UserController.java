@@ -5,26 +5,32 @@
  */
 package controller;
 
+import entity.Person;
 import entity.Subject;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.PersonFacade;
+import session.SubjectFacade;
 
 /**
  *
  * @author pupil
  */
 @WebServlet(name = "UserController", urlPatterns = {
-    "/addSubject",
+    "/showAddSubject",
     "/showAddStudent",
-    
+    "/addStudent",
+    "/addSubject",
 
 })
 public class UserController extends HttpServlet {
-
+    @EJB private PersonFacade personFacade;
+    @EJB private SubjectFacade subjectFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,13 +47,8 @@ public class UserController extends HttpServlet {
         String path = request.getServletPath();
         switch (path) {
        
-            case "/addSubject":
-                String name=request.getParameter("name");
-                String hours=request.getParameter("hours");
-                String teacher=request.getParameter("teacher");
-                Subject subject = new Subject(name, hours, teacher);
-               // subjectFacade.create(subject);
-                request.getRequestDispatcher("/index.jsp")
+            case "/showAddSubject":
+                request.getRequestDispatcher("/WEB-INF/showAddSubject.jsp")
                         .forward(request, response);
                 break;
             case "/showAddStudent":
@@ -55,8 +56,44 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/showAddStudent.jsp")
                         .forward(request, response);
                 break;
+            case "/addStudent":
+                String firstname = request.getParameter("firstname");
+                String lastname = request.getParameter("lastname");
+                String status = request.getParameter("status");
                
-            
+                try{
+                    Person person = new Person(null, firstname, lastname, status);
+                    personFacade.create(person);
+                    request.setAttribute("person", person);
+                    request.setAttribute("info", "Студент добавлен");
+                }catch(NumberFormatException e){
+                    request.setAttribute("info", "Некорректные данные"); 
+                    request.setAttribute("firstname", firstname);
+                    request.setAttribute("lastname", lastname);
+                    request.setAttribute("status", status);
+                }
+                request.getRequestDispatcher("/WEB-INF/showAddStudent.jsp")
+                        .forward(request, response);    
+                break;
+            case "/addSubject":
+                String hours = request.getParameter("hours");
+                String name = request.getParameter("name");
+                String personId = request.getParameter("personId");
+                Person person = personFacade.find(Long.parseLong(personId));
+                try{
+                    Subject subject = new Subject(name, Integer.parseInt(hours), person);
+                    subjectFacade.create(subject);
+                    request.setAttribute("subject", subject);
+                    request.setAttribute("info", "Предмет добавлен");
+                }catch(NumberFormatException e){
+                    request.setAttribute("info", "Некорректные данные"); 
+                    request.setAttribute("hours", hours);
+                    request.setAttribute("name", name);
+                    request.setAttribute("person", person);
+                }
+                request.getRequestDispatcher("/WEB-INF/showAddSubject.jsp")
+                        .forward(request, response);    
+                break;        
         }
     }
 

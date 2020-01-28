@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,19 +28,15 @@ public class Subject implements Serializable{
    //@Column()
    private String name; 
    private int hours;
-   private String person;
+   private Person person;
 
     public Subject() {
     }
 
-    public Subject(String name, int hours, String person) {
+    public Subject(String name, int hours, Person person) {
         this.name = name;
         this.hours = hours;
         this.person = person;
-    }
-
-    public Subject(String name, String hours, String teacher) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Long getId() {
@@ -66,18 +63,60 @@ public class Subject implements Serializable{
         this.hours = hours;
     }
 
-    public String getPerson() {
+    public Person getPerson() {
         return person;
     }
 
-    public void setPerson(String person) {
+    public void setPerson(Person person) {
         this.person = person;
     }
 
     @Override
-    public String toString() {
-        return "Subject{" + "id=" + id + ", name=" + name + ", hours=" + hours + ", person=" + person + '}';
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + this.hours;
+        hash = 67 * hash + Objects.hashCode(this.person);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Subject other = (Subject) obj;
+        if (this.hours != other.hours) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.person, other.person)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" + "id=" + id + ", name=" + name + ", hours=" + hours 
+                + ", person=" + person.getFirstname()
+                + " " + person.getLastname()
+                + '}';
+    }
+
+  
 
     
 }

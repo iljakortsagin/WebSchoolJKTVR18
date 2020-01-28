@@ -6,6 +6,7 @@
 package session;
 
 import entity.Person;
+import entity.Subject;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,11 @@ public class PersonFacade extends AbstractFacade<Person> {
     public PersonFacade() {
         super(Person.class);
     }
+
+    public void create(String person) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
     
 }

@@ -12,7 +12,8 @@
         <title>Школа онлайн</title>
     </head>
     <body>
-        <h1>Начните работу</h1>
+        <h1>Начните работу!</h1>
         <a href="showAddStudent">Добавить студента</a><br>
+        <a href="showAddSubject">Добавить предмет</a><br>
     </body>
 </html>
